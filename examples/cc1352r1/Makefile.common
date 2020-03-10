@@ -1,0 +1,18 @@
+COMMIT_STR := $(shell git show --oneline --quiet | cut -f1 -d" ")
+DATE_STAMP := $(shell date +%m_%d_%y)
+
+DESCR := Default
+
+FINAL_NAME = $(DEVICE_NAME)_$(DESCR)_$(COMMIT_STR)_$(DATE_STAMP)
+
+FINAL_BIN = $(FINAL_NAME).bin
+FINAL_HEX = $(FINAL_NAME).hex
+
+%.rename-hex: $(OUT_HEX)
+	cp $< $(FINAL_HEX)
+
+%.rename-bin: $(OUT_BIN)
+	cp $< $(FINAL_BIN)
+
+%.rename: %.$(TARGET) %.rename-hex %.rename-bin
+	@
